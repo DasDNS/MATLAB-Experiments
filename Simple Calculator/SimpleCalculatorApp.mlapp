@@ -1,0 +1,201 @@
+classdef SimpleCalculatorApp < matlab.apps.AppBase
+
+    % Properties that correspond to app components
+    properties (Access = public)
+        UIFigure               matlab.ui.Figure
+        ClearButton            matlab.ui.control.Button
+        SquareRootButton       matlab.ui.control.Button
+        SquareButton           matlab.ui.control.Button
+        DivideButton           matlab.ui.control.Button
+        SubtractButton         matlab.ui.control.Button
+        MultiplyButton         matlab.ui.control.Button
+        AddButton              matlab.ui.control.Button
+        SimpleCalculatorLabel  matlab.ui.control.Label
+        AnswerEditField        matlab.ui.control.NumericEditField
+        AnswerEditFieldLabel   matlab.ui.control.Label
+        Value2EditField        matlab.ui.control.NumericEditField
+        Value2EditFieldLabel   matlab.ui.control.Label
+        Value1EditField        matlab.ui.control.NumericEditField
+        Value1EditFieldLabel   matlab.ui.control.Label
+    end
+
+    % Callbacks that handle component events
+    methods (Access = private)
+
+        % Button pushed function: AddButton
+        function AddButtonPushed(app, event)
+            num1 = app.Value1EditField.Value;
+            num2 = app.Value2EditField.Value;
+            answer = num1 + num2;
+            app.AnswerEditField.Value = answer;
+        end
+
+        % Button pushed function: SubtractButton
+        function SubtractButtonPushed(app, event)
+            num1 = app.Value1EditField.Value;
+            num2 = app.Value2EditField.Value;
+            answer = num1 - num2;
+            app.AnswerEditField.Value = answer;
+        end
+
+        % Button pushed function: MultiplyButton
+        function MultiplyButtonPushed(app, event)
+            num1 = app.Value1EditField.Value;
+            num2 = app.Value2EditField.Value;
+            answer = num1 * num2;
+            app.AnswerEditField.Value = answer;
+        end
+
+        % Button pushed function: DivideButton
+        function DivideButtonPushed(app, event)
+            num1 = app.Value1EditField.Value;
+            num2 = app.Value2EditField.Value;
+            answer = num1 / num2;
+            app.AnswerEditField.Value = answer;
+        end
+
+        % Button pushed function: SquareButton
+        function SquareButtonPushed(app, event)
+            num1 = app.Value1EditField.Value;
+            num2 = app.Value2EditField.Value;
+            answer = num1 .^ num2;
+            app.AnswerEditField.Value = answer;
+        end
+
+        % Button pushed function: SquareRootButton
+        function SquareRootButtonPushed(app, event)
+            num1 = app.Value1EditField.Value;
+            answer = sqrt(num1);
+            app.AnswerEditField.Value = answer;
+        end
+
+        % Button pushed function: ClearButton
+        function ClearButtonPushed(app, event)
+            app.Value1EditField.Value = 0; 
+          app.Value2EditField.Value = 0; 
+          app.AnswerEditField.Value = 0; 
+        end
+    end
+
+    % Component initialization
+    methods (Access = private)
+
+        % Create UIFigure and components
+        function createComponents(app)
+
+            % Create UIFigure and hide until all components are created
+            app.UIFigure = uifigure('Visible', 'off');
+            app.UIFigure.Position = [100 100 640 480];
+            app.UIFigure.Name = 'MATLAB App';
+
+            % Create Value1EditFieldLabel
+            app.Value1EditFieldLabel = uilabel(app.UIFigure);
+            app.Value1EditFieldLabel.HorizontalAlignment = 'right';
+            app.Value1EditFieldLabel.Position = [59 395 45 22];
+            app.Value1EditFieldLabel.Text = 'Value 1';
+
+            % Create Value1EditField
+            app.Value1EditField = uieditfield(app.UIFigure, 'numeric');
+            app.Value1EditField.Position = [119 395 100 22];
+
+            % Create Value2EditFieldLabel
+            app.Value2EditFieldLabel = uilabel(app.UIFigure);
+            app.Value2EditFieldLabel.HorizontalAlignment = 'right';
+            app.Value2EditFieldLabel.Position = [355 395 45 22];
+            app.Value2EditFieldLabel.Text = 'Value 2';
+
+            % Create Value2EditField
+            app.Value2EditField = uieditfield(app.UIFigure, 'numeric');
+            app.Value2EditField.Position = [415 395 100 22];
+
+            % Create AnswerEditFieldLabel
+            app.AnswerEditFieldLabel = uilabel(app.UIFigure);
+            app.AnswerEditFieldLabel.HorizontalAlignment = 'right';
+            app.AnswerEditFieldLabel.Position = [204 351 45 22];
+            app.AnswerEditFieldLabel.Text = 'Answer';
+
+            % Create AnswerEditField
+            app.AnswerEditField = uieditfield(app.UIFigure, 'numeric');
+            app.AnswerEditField.Editable = 'off';
+            app.AnswerEditField.Position = [264 351 100 22];
+
+            % Create SimpleCalculatorLabel
+            app.SimpleCalculatorLabel = uilabel(app.UIFigure);
+            app.SimpleCalculatorLabel.BackgroundColor = [0.8 0.8 0.8];
+            app.SimpleCalculatorLabel.FontSize = 24;
+            app.SimpleCalculatorLabel.FontColor = [1 0 0];
+            app.SimpleCalculatorLabel.Position = [235 439 194 31];
+            app.SimpleCalculatorLabel.Text = 'Simple Calculator';
+
+            % Create AddButton
+            app.AddButton = uibutton(app.UIFigure, 'push');
+            app.AddButton.ButtonPushedFcn = createCallbackFcn(app, @AddButtonPushed, true);
+            app.AddButton.Position = [89 263 100 22];
+            app.AddButton.Text = 'Add';
+
+            % Create MultiplyButton
+            app.MultiplyButton = uibutton(app.UIFigure, 'push');
+            app.MultiplyButton.ButtonPushedFcn = createCallbackFcn(app, @MultiplyButtonPushed, true);
+            app.MultiplyButton.Position = [89 204 100 22];
+            app.MultiplyButton.Text = 'Multiply';
+
+            % Create SubtractButton
+            app.SubtractButton = uibutton(app.UIFigure, 'push');
+            app.SubtractButton.ButtonPushedFcn = createCallbackFcn(app, @SubtractButtonPushed, true);
+            app.SubtractButton.Position = [373 263 100 22];
+            app.SubtractButton.Text = 'Subtract';
+
+            % Create DivideButton
+            app.DivideButton = uibutton(app.UIFigure, 'push');
+            app.DivideButton.ButtonPushedFcn = createCallbackFcn(app, @DivideButtonPushed, true);
+            app.DivideButton.Position = [373 204 100 22];
+            app.DivideButton.Text = 'Divide';
+
+            % Create SquareButton
+            app.SquareButton = uibutton(app.UIFigure, 'push');
+            app.SquareButton.ButtonPushedFcn = createCallbackFcn(app, @SquareButtonPushed, true);
+            app.SquareButton.Position = [89 147 100 22];
+            app.SquareButton.Text = 'Square';
+
+            % Create SquareRootButton
+            app.SquareRootButton = uibutton(app.UIFigure, 'push');
+            app.SquareRootButton.ButtonPushedFcn = createCallbackFcn(app, @SquareRootButtonPushed, true);
+            app.SquareRootButton.Position = [373 147 100 22];
+            app.SquareRootButton.Text = 'Square Root';
+
+            % Create ClearButton
+            app.ClearButton = uibutton(app.UIFigure, 'push');
+            app.ClearButton.ButtonPushedFcn = createCallbackFcn(app, @ClearButtonPushed, true);
+            app.ClearButton.Position = [527 341 100 22];
+            app.ClearButton.Text = 'Clear';
+
+            % Show the figure after all components are created
+            app.UIFigure.Visible = 'on';
+        end
+    end
+
+    % App creation and deletion
+    methods (Access = public)
+
+        % Construct app
+        function app = SimpleCalculatorApp
+
+            % Create UIFigure and components
+            createComponents(app)
+
+            % Register the app with App Designer
+            registerApp(app, app.UIFigure)
+
+            if nargout == 0
+                clear app
+            end
+        end
+
+        % Code that executes before app deletion
+        function delete(app)
+
+            % Delete UIFigure when app is deleted
+            delete(app.UIFigure)
+        end
+    end
+end
